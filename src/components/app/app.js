@@ -7,14 +7,67 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 const date = new Date();
 
 class App extends React.Component {
+  maxId = 100;
 
   state = {
     ToDoData: [
       {label: "Completed task", time: formatDistanceToNow(date, { addSuffix: true }), id: "1"},
       {label: "Editing task", time: formatDistanceToNow(date, { addSuffix: true }), id: "2"}, //class: "editing"
       {label: "Active task", time: formatDistanceToNow(date, { addSuffix: true }), id: "3"}
-    ]
+    ],
+    filter: "All"
   };
+
+  // refreshTime = () => {
+  //   console.log("ок");
+  //   this.setState(state => {
+  //     let newArr = [...state.ToDoData];
+
+  //     newArr.map(el => {
+  //       el.time = formatDistanceToNow(date, { addSuffix: true });
+  //       return el;
+  //     });
+
+  //     return state.ToDoData = newArr;
+  //   });
+  // }
+
+  nonCompletedCount = () => {
+    const { ToDoData } = this.state;
+
+    return ToDoData.filter(el => el.class !== "completed").length;
+  };
+
+  delCompleted = () => {
+    this.setState((state) => {
+      let newArr = [];
+      state.ToDoData.forEach(el => {
+        if (el.class !== "completed") {
+          newArr.push(el);
+        }
+      });
+      return state.ToDoData = newArr;
+    });
+  };
+
+  selectFilter = (filter) => {
+    this.setState({ filter });
+  }
+
+  addTodo = (text) => {
+    let realDate = new Date();
+    this.setState((state) => {
+      let newTodo = {
+        label: text,
+        time: formatDistanceToNow(realDate, { addSuffix: true }),
+        id: this.maxId++
+      }
+
+      let newArr = [...state.ToDoData, newTodo];
+
+      return state.ToDoData = newArr;
+    });
+  }
 
   onDeleted = (id) => {
     this.setState((state) => {
@@ -52,16 +105,26 @@ class App extends React.Component {
 
   render () {
 
+
+    // setInterval(() => {
+    //   this.refreshTime();
+    // }, 60000);
+
     return (
       <section className="todoapp">
-        <AppHeader />
+        <AppHeader
+          submitForm={(text) => this.addTodo(text)}/>
   
         <section className="main">
           <TaskList 
           todos = {this.state.ToDoData}
           setComplite={(id) => this.setComplite(id)}
-          onDeleted={(id) => this.onDeleted(id)}/>
-          <Footer />
+          onDeleted={(id) => this.onDeleted(id)}
+          filter={this.state.filter}/>
+          <Footer
+            selectFilter={(filter) => {this.selectFilter(filter)}}
+            delCompleted={this.delCompleted}
+            count={this.nonCompletedCount()}/>
         </section>
       </section>
     );

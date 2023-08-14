@@ -2,9 +2,23 @@ import React from "react";
 import Task from "../task";
 import "./task-list.css"
 
-const TaskList = ({todos, setComplite, onDeleted}) => {
+const TaskList = ({todos, setComplite, onDeleted, filter}) => {
+    let newArr = [];
+    todos.forEach(el => {
+        if (filter === "All") {
+            newArr.push(el);
+        } else if (filter === "Completed") {
+            if (el.class === "completed") {
+                newArr.push(el);
+            }
+        } else if (filter === "Active") {
+            if (el.class !== "completed") {
+                newArr.push(el);
+            }
+        }
+    });
 
-    const elements = todos.map(el => {
+    const elements = newArr.map(el => {
         let editInput;
 
         if (el.class === "editing") {

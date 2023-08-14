@@ -157,10 +157,6 @@
 	margin-bottom: -1px;
 }
 
-.todo-list li label .done {
-	color: rgb(195, 255, 84) !important;
-}
-
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	.toggle-all,
 	.todo-list li .toggle {

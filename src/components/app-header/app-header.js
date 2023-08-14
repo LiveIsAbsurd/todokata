@@ -2,11 +2,12 @@ import React from "react";
 import NewTaskForm from "../new-task-form";
 import "./app-header.css";
 
-const AppHeader = () => {
+const AppHeader = ({ changeLabel, submitForm }) => {
     return (
         <header className="header">
             <h1>todos</h1>
-            <NewTaskForm />
+            <NewTaskForm 
+                submitForm={(text) => submitForm(text)}/>
         </header>
     );
 };

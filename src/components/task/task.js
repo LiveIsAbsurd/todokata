@@ -7,27 +7,8 @@ class Task extends React.Component {
         done: false
     }
 
-    // labelClick = () => {
-    //     if (!this.state.done) {
-    //         this.setState({
-    //             done: true
-    //         });
-    //     } else {
-    //         this.setState({
-    //             done: false
-    //         });
-    //     }
-    // }
-
     render () {
-        
-
         const { label, time, setComplite, onDeleted, id, isChecked } = this.props;
-
-        // let classNames = 'description';
-        // if (this.state.done) {
-        //     classNames += " completed"
-        // }
 
         return (
             <div className="view">
