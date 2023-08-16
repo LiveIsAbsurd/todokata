@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./new-task-form.css";
 
 class NewTaskForm extends React.Component {
@@ -33,6 +34,14 @@ class NewTaskForm extends React.Component {
             </form>
         );
     };
+};
+
+NewTaskForm.propTypes = {
+    submitForm: PropTypes.func
+};
+
+NewTaskForm.defaultProps = {
+    submitForm: () => {}
 };
 
 export default NewTaskForm;

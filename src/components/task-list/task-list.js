@@ -1,5 +1,6 @@
 import React from "react";
 import Task from "../task";
+import PropTypes from "prop-types";
 import "./task-list.css"
 
 const TaskList = ({todos, setComplite, onDeleted, filter}) => {
@@ -28,7 +29,7 @@ const TaskList = ({todos, setComplite, onDeleted, filter}) => {
         }
 
         return (
-            <li id={el.id} className={el.class ? el.class : ""}>
+            <li key={el.id} className={el.class ? el.class : ""}>
                 <Task {...el}
                 setComplite = {(id) => setComplite(id)}
                 onDeleted = {(id) => onDeleted(id)}
@@ -43,6 +44,20 @@ const TaskList = ({todos, setComplite, onDeleted, filter}) => {
             {elements}
         </ul>
     );
+};
+
+TaskList.propTypes = {
+    todos: PropTypes.array,
+    setComplite: PropTypes.func,
+    onDeleted: PropTypes.func,
+    filter: PropTypes.string
+};
+
+TaskList.defaultProps = {
+    todos: [],
+    setComplite: () => {},
+    onDeleted: () => {},
+    filter: "All"
 };
 
 export default TaskList;

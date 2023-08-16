@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./task.css";
 
 class Task extends React.Component {
@@ -14,7 +15,7 @@ class Task extends React.Component {
             <div className="view">
                 <input className="toggle" type="checkbox"
                 onClick={() => setComplite(id)} 
-                checked = {isChecked} />
+                checked = {isChecked} readOnly/>
                 <label>
                     <span className={"description"}>{label}</span>
                     <span className="created">{time}</span>
@@ -26,5 +27,23 @@ class Task extends React.Component {
         );
     }
 }
+
+Task.propTypes = {
+    label: PropTypes.string,
+    time: PropTypes.string,
+    setComplite: PropTypes.func,
+    onDeleted: PropTypes.func,
+    id: PropTypes.string,
+    isChecked: PropTypes.bool
+};
+
+Task.defaultProps = {
+    label: "",
+    time: "",
+    setComplite: () => {},
+    onDeleted: () => {},
+    id: "0",
+    isChecked: false
+};
 
 export default Task;

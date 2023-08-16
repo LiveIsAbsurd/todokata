@@ -4,33 +4,31 @@ import TaskList from "../task-list";
 import Footer from "../footer";
 import "./app.css";
 import formatDistanceToNow from "date-fns/formatDistanceToNow"; 
-const date = new Date();
 
 class App extends React.Component {
   maxId = 100;
 
   state = {
     ToDoData: [
-      {label: "Completed task", time: formatDistanceToNow(date, { addSuffix: true }), id: "1"},
-      {label: "Editing task", time: formatDistanceToNow(date, { addSuffix: true }), id: "2"}, //class: "editing"
-      {label: "Active task", time: formatDistanceToNow(date, { addSuffix: true }), id: "3"}
+      {label: "Анжуманя", realDate: new Date(), time: formatDistanceToNow(new Date(), { addSuffix: true }), id: "1"},
+      {label: "Пресс качат", realDate: new Date(), time: formatDistanceToNow(new Date(), { addSuffix: true }), id: "2"}, //class: "editing"
+      {label: "Create React app", realDate: new Date(), time: formatDistanceToNow(new Date(), { addSuffix: true }), id: "3"}
     ],
     filter: "All"
   };
 
-  // refreshTime = () => {
-  //   console.log("ок");
-  //   this.setState(state => {
-  //     let newArr = [...state.ToDoData];
+  refreshTime = () => {
+    this.setState(state => {
+      let newArr = [...state.ToDoData];
 
-  //     newArr.map(el => {
-  //       el.time = formatDistanceToNow(date, { addSuffix: true });
-  //       return el;
-  //     });
+      newArr.map(el => {
+        el.time = formatDistanceToNow(el.realDate, { addSuffix: true });
+        return el;
+      });
 
-  //     return state.ToDoData = newArr;
-  //   });
-  // }
+      return state.ToDoData = newArr;
+    });
+  }
 
   nonCompletedCount = () => {
     const { ToDoData } = this.state;
@@ -59,9 +57,11 @@ class App extends React.Component {
     this.setState((state) => {
       let newTodo = {
         label: text,
-        time: formatDistanceToNow(realDate, { addSuffix: true }),
-        id: this.maxId++
+        realDate: new Date(),
+        id: String(this.maxId++)
       }
+
+      newTodo["time"] = formatDistanceToNow(newTodo["realDate"], { addSuffix: true });
 
       let newArr = [...state.ToDoData, newTodo];
 
@@ -106,9 +106,9 @@ class App extends React.Component {
   render () {
 
 
-    // setInterval(() => {
-    //   this.refreshTime();
-    // }, 60000);
+    setInterval(() => {
+      this.refreshTime();
+    }, 5000);
 
     return (
       <section className="todoapp">
