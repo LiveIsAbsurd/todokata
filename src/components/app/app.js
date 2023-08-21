@@ -1,135 +1,142 @@
-import React from "react";
-import AppHeader from "../app-header";
-import TaskList from "../task-list";
-import Footer from "../footer";
-import "./app.css";
-import formatDistanceToNow from "date-fns/formatDistanceToNow"; 
+import React from 'react'
+import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+
+import AppHeader from '../app-header'
+import TaskList from '../task-list'
+import Footer from '../footer'
+
+import './app.css'
 
 class App extends React.Component {
-  maxId = 100;
+  maxId = 100
 
   state = {
     ToDoData: [
-      {label: "Анжуманя", realDate: new Date(), time: formatDistanceToNow(new Date(), { addSuffix: true }), id: "1"},
-      {label: "Пресс качат", realDate: new Date(), time: formatDistanceToNow(new Date(), { addSuffix: true }), id: "2"}, //class: "editing"
-      {label: "Create React app", realDate: new Date(), time: formatDistanceToNow(new Date(), { addSuffix: true }), id: "3"}
+      { label: 'Анжуманя', realDate: new Date(), time: formatDistanceToNow(new Date(), { addSuffix: true }), id: '1' },
+      {
+        label: 'Пресс качат',
+        realDate: new Date(),
+        time: formatDistanceToNow(new Date(), { addSuffix: true }),
+        id: '2',
+      }, //class: "editing"
+      {
+        label: 'Create React app',
+        realDate: new Date(),
+        time: formatDistanceToNow(new Date(), { addSuffix: true }),
+        id: '3',
+      },
     ],
-    filter: "All"
-  };
+    filter: 'All',
+  }
 
   refreshTime = () => {
-    this.setState(state => {
-      let newArr = [...state.ToDoData];
+    this.setState((state) => {
+      let newArr = [...state.ToDoData]
 
-      newArr.map(el => {
-        el.time = formatDistanceToNow(el.realDate, { addSuffix: true });
-        return el;
-      });
+      newArr.map((el) => {
+        el.time = formatDistanceToNow(el.realDate, { addSuffix: true })
+        return el
+      })
 
-      return state.ToDoData = newArr;
-    });
+      return (state.ToDoData = newArr)
+    })
   }
 
   nonCompletedCount = () => {
-    const { ToDoData } = this.state;
+    const { ToDoData } = this.state
 
-    return ToDoData.filter(el => el.class !== "completed").length;
-  };
+    return ToDoData.filter((el) => el.class !== 'completed').length
+  }
 
   delCompleted = () => {
     this.setState((state) => {
-      let newArr = [];
-      state.ToDoData.forEach(el => {
-        if (el.class !== "completed") {
-          newArr.push(el);
+      let newArr = []
+      state.ToDoData.forEach((el) => {
+        if (el.class !== 'completed') {
+          newArr.push(el)
         }
-      });
-      return state.ToDoData = newArr;
-    });
-  };
+      })
+      return (state.ToDoData = newArr)
+    })
+  }
 
   selectFilter = (filter) => {
-    this.setState({ filter });
+    this.setState({ filter })
   }
 
   addTodo = (text) => {
-    let realDate = new Date();
     this.setState((state) => {
       let newTodo = {
         label: text,
         realDate: new Date(),
-        id: String(this.maxId++)
+        id: String(this.maxId++),
       }
 
-      newTodo["time"] = formatDistanceToNow(newTodo["realDate"], { addSuffix: true });
+      newTodo['time'] = formatDistanceToNow(newTodo['realDate'], { addSuffix: true })
 
-      let newArr = [...state.ToDoData, newTodo];
+      let newArr = [...state.ToDoData, newTodo]
 
-      return state.ToDoData = newArr;
-    });
+      return (state.ToDoData = newArr)
+    })
   }
 
   onDeleted = (id) => {
     this.setState((state) => {
       const idx = state.ToDoData.findIndex((el) => {
-        return el.id === id;
-      });
+        return el.id === id
+      })
 
-      let newData = [
-        ...state.ToDoData.slice(0, idx),
-        ...state.ToDoData.slice(idx + 1)
-      ];
+      let newData = [...state.ToDoData.slice(0, idx), ...state.ToDoData.slice(idx + 1)]
 
-      return state.ToDoData = newData;
-    });
-  };
+      return (state.ToDoData = newData)
+    })
+  }
 
   setComplite = (id) => {
     this.setState((state) => {
-      let newData = [...state.ToDoData];
+      let newData = [...state.ToDoData]
 
       const idx = newData.findIndex((el) => {
-        return el.id === id;
-      });
+        return el.id === id
+      })
 
       if (!newData[idx].class) {
-        newData[idx].class = "completed";
+        newData[idx].class = 'completed'
       } else {
-        newData[idx].class = "";
+        newData[idx].class = ''
       }
-      
 
-      return state.ToDoData = newData;
-    });
+      return (state.ToDoData = newData)
+    })
   }
 
-  render () {
-
-
+  render() {
     setInterval(() => {
-      this.refreshTime();
-    }, 5000);
+      this.refreshTime()
+    }, 5000)
 
     return (
       <section className="todoapp">
-        <AppHeader
-          submitForm={(text) => this.addTodo(text)}/>
-  
+        <AppHeader submitForm={(text) => this.addTodo(text)} />
+
         <section className="main">
-          <TaskList 
-          todos = {this.state.ToDoData}
-          setComplite={(id) => this.setComplite(id)}
-          onDeleted={(id) => this.onDeleted(id)}
-          filter={this.state.filter}/>
+          <TaskList
+            todos={this.state.ToDoData}
+            setComplite={(id) => this.setComplite(id)}
+            onDeleted={(id) => this.onDeleted(id)}
+            filter={this.state.filter}
+          />
           <Footer
-            selectFilter={(filter) => {this.selectFilter(filter)}}
+            selectFilter={(filter) => {
+              this.selectFilter(filter)
+            }}
             delCompleted={this.delCompleted}
-            count={this.nonCompletedCount()}/>
+            count={this.nonCompletedCount()}
+          />
         </section>
       </section>
-    );
+    )
   }
 }
 
-
-export default App;
+export default App

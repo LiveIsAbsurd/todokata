@@ -1,25 +1,25 @@
-import React from "react";
-import NewTaskForm from "../new-task-form";
-import "./app-header.css";
-import PropTypes from "prop-types";
+import React from 'react'
+import PropTypes from 'prop-types'
+
+import NewTaskForm from '../new-task-form'
+
+import './app-header.css'
 
 const AppHeader = ({ submitForm }) => {
-    return (
-        <header className="header">
-            <h1>todos</h1>
-            <NewTaskForm 
-                submitForm={(text) => submitForm(text)}/>
-        </header>
-    );
-};
+  return (
+    <header className="header">
+      <h1>todos</h1>
+      <NewTaskForm submitForm={(text) => submitForm(text)} />
+    </header>
+  )
+}
 
 AppHeader.propTypes = {
-    submitForm: PropTypes.func
-};
+  submitForm: PropTypes.func,
+}
 
 AppHeader.defaultProps = {
-    submitForm: () => {}
-};
+  submitForm: () => {},
+}
 
-
-export default AppHeader;
+export default AppHeader
