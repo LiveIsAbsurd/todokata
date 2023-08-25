@@ -29,6 +29,24 @@ class App extends React.Component {
     filter: 'All',
   }
 
+  toDoRender = (todolist) => {
+    let newTodolist = todolist.filter((el) => {
+      if (this.state.filter === 'All') {
+        return el
+      } else if (this.state.filter === 'Completed') {
+        if (el.class === 'completed') {
+          return el
+        }
+      } else if (this.state.filter === 'Active') {
+        if (el.class !== 'completed') {
+          return el
+        }
+      }
+    })
+
+    return newTodolist
+  }
+
   refreshTime = () => {
     this.setState((state) => {
       let newArr = [...state.ToDoData]
@@ -50,10 +68,9 @@ class App extends React.Component {
 
   delCompleted = () => {
     this.setState((state) => {
-      let newArr = []
-      state.ToDoData.forEach((el) => {
+      let newArr = state.ToDoData.filter((el) => {
         if (el.class !== 'completed') {
-          newArr.push(el)
+          return el
         }
       })
       return (state.ToDoData = newArr)
@@ -82,11 +99,11 @@ class App extends React.Component {
 
   onDeleted = (id) => {
     this.setState((state) => {
-      const idx = state.ToDoData.findIndex((el) => {
-        return el.id === id
+      let newData = state.ToDoData.filter((el) => {
+        if (el.id !== id) {
+          return el
+        }
       })
-
-      let newData = [...state.ToDoData.slice(0, idx), ...state.ToDoData.slice(idx + 1)]
 
       return (state.ToDoData = newData)
     })
@@ -110,6 +127,24 @@ class App extends React.Component {
     })
   }
 
+  editingTask = (id) => {
+    this.setState((state) => {
+      let newData = [...state.ToDoData]
+
+      const idx = newData.findIndex((el) => {
+        return el.id === id
+      })
+
+      if (!newData[idx].class) {
+        newData[idx].class = 'editing'
+      } else {
+        newData[idx].class = ''
+      }
+
+      return (state.ToDoData = newData)
+    })
+  }
+
   render() {
     setInterval(() => {
       this.refreshTime()
@@ -121,10 +156,11 @@ class App extends React.Component {
 
         <section className="main">
           <TaskList
-            todos={this.state.ToDoData}
+            todos={this.toDoRender(this.state.ToDoData)}
             setComplite={(id) => this.setComplite(id)}
             onDeleted={(id) => this.onDeleted(id)}
             filter={this.state.filter}
+            editingTask={(id) => this.editingTask(id)}
           />
           <Footer
             selectFilter={(filter) => {

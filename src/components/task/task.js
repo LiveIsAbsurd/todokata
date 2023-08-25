@@ -3,12 +3,8 @@ import PropTypes from 'prop-types'
 import './task.css'
 
 class Task extends React.Component {
-  state = {
-    done: false,
-  }
-
   render() {
-    const { label, time, setComplite, onDeleted, id, isChecked } = this.props
+    const { label, time, setComplite, onDeleted, editingTask, id, isChecked } = this.props
 
     return (
       <div className="view">
@@ -17,7 +13,7 @@ class Task extends React.Component {
           <span className={'description'}>{label}</span>
           <span className="created">{time}</span>
         </label>
-        <button className="icon icon-edit"></button>
+        <button className="icon icon-edit" onClick={() => editingTask(id)}></button>
         <button className="icon icon-destroy" onClick={() => onDeleted(id)}></button>
       </div>
     )

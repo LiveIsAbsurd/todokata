@@ -9,7 +9,7 @@ class TasksFilter extends React.Component {
     Completed: false,
   }
 
-  selectFilter = (e) => {
+  select = (e) => {
     this.setState((state) => {
       let newState = { ...state }
       Object.keys(newState).forEach((el) => {
@@ -25,17 +25,17 @@ class TasksFilter extends React.Component {
     return (
       <ul className="filters">
         <li>
-          <button className={this.state.All ? 'selected' : ''} onClick={this.selectFilter}>
+          <button className={this.state.All ? 'selected' : ''} onClick={this.select}>
             All
           </button>
         </li>
         <li>
-          <button className={this.state.Active ? 'selected' : ''} onClick={this.selectFilter}>
+          <button className={this.state.Active ? 'selected' : ''} onClick={this.select}>
             Active
           </button>
         </li>
         <li>
-          <button className={this.state.Completed ? 'selected' : ''} onClick={this.selectFilter}>
+          <button className={this.state.Completed ? 'selected' : ''} onClick={this.select}>
             Completed
           </button>
         </li>

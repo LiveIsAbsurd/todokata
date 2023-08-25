@@ -4,37 +4,25 @@ import PropTypes from 'prop-types'
 import Task from '../task'
 import './task-list.css'
 
-const TaskList = ({ todos, setComplite, onDeleted, filter }) => {
-  let newArr = []
-  todos.forEach((el) => {
-    if (filter === 'All') {
-      newArr.push(el)
-    } else if (filter === 'Completed') {
-      if (el.class === 'completed') {
-        newArr.push(el)
-      }
-    } else if (filter === 'Active') {
-      if (el.class !== 'completed') {
-        newArr.push(el)
-      }
-    }
-  })
-
-  const elements = newArr.map((el) => {
+const TaskList = ({ todos, setComplite, onDeleted, editingTask }) => {
+  const elements = todos.map((el) => {
     let editInput
-
     if (el.class === 'editing') {
-      editInput = <input type="text" className="edit" value="Editing task"></input>
+      editInput = (
+        <form>
+          <input type="text" className="edit"></input>
+        </form>
+      )
     } else {
       editInput = ''
     }
-
     return (
       <li key={el.id} className={el.class ? el.class : ''}>
         <Task
           {...el}
           setComplite={(id) => setComplite(id)}
           onDeleted={(id) => onDeleted(id)}
+          editingTask={(id) => editingTask(id)}
           isChecked={el.class === 'completed' ? true : false}
         />
         {editInput}
