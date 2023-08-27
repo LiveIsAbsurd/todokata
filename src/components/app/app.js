@@ -134,13 +134,21 @@ class App extends React.Component {
       const idx = newData.findIndex((el) => {
         return el.id === id
       })
+      newData[idx].preIditingState = newData[idx].class
+      newData[idx].class = 'editing'
+      return (state.ToDoData = newData)
+    })
+  }
 
-      if (!newData[idx].class) {
-        newData[idx].class = 'editing'
-      } else {
-        newData[idx].class = ''
-      }
+  editTask = (id, label) => {
+    this.setState((state) => {
+      let newData = [...state.ToDoData]
 
+      const idx = newData.findIndex((el) => {
+        return el.id === id
+      })
+      newData[idx].class = newData[idx].preIditingState
+      newData[idx].label = label
       return (state.ToDoData = newData)
     })
   }
@@ -161,6 +169,7 @@ class App extends React.Component {
             onDeleted={(id) => this.onDeleted(id)}
             filter={this.state.filter}
             editingTask={(id) => this.editingTask(id)}
+            editTask={(id, label) => this.editTask(id, label)}
           />
           <Footer
             selectFilter={(filter) => {
