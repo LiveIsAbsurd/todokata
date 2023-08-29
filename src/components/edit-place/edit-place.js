@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 export default class EditPlace extends React.Component {
   state = {
@@ -38,4 +39,14 @@ export default class EditPlace extends React.Component {
       </form>
     )
   }
+}
+
+EditPlace.propTypes = {
+  todos: PropTypes.object,
+  setComplite: PropTypes.func,
+}
+
+EditPlace.defaultProps = {
+  todos: {},
+  setComplite: () => {},
 }
