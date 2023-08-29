@@ -1,10 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import './task.css'
+import React from 'react';
+import PropTypes from 'prop-types';
+import './task.css';
 
 class Task extends React.Component {
   render() {
-    const { label, time, setComplite, onDeleted, editingTask, id, isChecked } = this.props
+    const { label, time, setComplite, onDeleted, editingTask, id, isChecked } = this.props;
 
     return (
       <div className="view">
@@ -16,7 +16,7 @@ class Task extends React.Component {
         <button className="icon icon-edit" onClick={() => editingTask(id)}></button>
         <button className="icon icon-destroy" onClick={() => onDeleted(id)}></button>
       </div>
-    )
+    );
   }
 }
 
@@ -27,7 +27,7 @@ Task.propTypes = {
   onDeleted: PropTypes.func,
   id: PropTypes.string,
   isChecked: PropTypes.bool,
-}
+};
 
 Task.defaultProps = {
   label: '',
@@ -36,6 +36,6 @@ Task.defaultProps = {
   onDeleted: () => {},
   id: '0',
   isChecked: false,
-}
+};
 
-export default Task
+export default Task;

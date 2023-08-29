@@ -1,9 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import NewTaskForm from '../new-task-form'
+import NewTaskForm from '../new-task-form';
 
-import './app-header.css'
+import './app-header.css';
 
 const AppHeader = ({ submitForm }) => {
   return (
@@ -11,15 +11,15 @@ const AppHeader = ({ submitForm }) => {
       <h1>todos</h1>
       <NewTaskForm submitForm={(text) => submitForm(text)} />
     </header>
-  )
-}
+  );
+};
 
 AppHeader.propTypes = {
   submitForm: PropTypes.func,
-}
+};
 
 AppHeader.defaultProps = {
   submitForm: () => {},
-}
+};
 
-export default AppHeader
+export default AppHeader;

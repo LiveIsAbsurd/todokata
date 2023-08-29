@@ -1,25 +1,25 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import './tasks-filter.css'
+import React from 'react';
+import PropTypes from 'prop-types';
+import './tasks-filter.css';
 
 class TasksFilter extends React.Component {
   state = {
     All: true,
     Active: false,
     Completed: false,
-  }
+  };
 
   select = (e) => {
     this.setState((state) => {
-      let newState = { ...state }
+      let newState = { ...state };
       Object.keys(newState).forEach((el) => {
-        newState[el] = false
-      })
-      newState[e.target.textContent] = true
-      return newState
-    })
-    this.props.selectFilter(e.target.textContent)
-  }
+        newState[el] = false;
+      });
+      newState[e.target.textContent] = true;
+      return newState;
+    });
+    this.props.selectFilter(e.target.textContent);
+  };
 
   render() {
     return (
@@ -40,16 +40,16 @@ class TasksFilter extends React.Component {
           </button>
         </li>
       </ul>
-    )
+    );
   }
 }
 
 TasksFilter.propTypes = {
   selectFilter: PropTypes.func,
-}
+};
 
 TasksFilter.defaultProps = {
   selectFilter: () => {},
-}
+};
 
-export default TasksFilter
+export default TasksFilter;

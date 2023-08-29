@@ -1,28 +1,28 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import './new-task-form.css'
+import React from 'react';
+import PropTypes from 'prop-types';
+import './new-task-form.css';
 
 class NewTaskForm extends React.Component {
   state = {
     label: '',
-  }
+  };
 
   onSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (this.state.label.trim() === '') {
-      return
+      return;
     }
-    this.props.submitForm(this.state.label)
+    this.props.submitForm(this.state.label);
     this.setState({
       label: '',
-    })
-  }
+    });
+  };
 
   changeLabel = (e) => {
     this.setState({
       label: e.target.value,
-    })
-  }
+    });
+  };
 
   render() {
     return (
@@ -34,16 +34,16 @@ class NewTaskForm extends React.Component {
           value={this.state.label}
         />
       </form>
-    )
+    );
   }
 }
 
 NewTaskForm.propTypes = {
   submitForm: PropTypes.func,
-}
+};
 
 NewTaskForm.defaultProps = {
   submitForm: () => {},
-}
+};
 
-export default NewTaskForm
+export default NewTaskForm;

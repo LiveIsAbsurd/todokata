@@ -1,3 +1,3 @@
-import EditPlace from './edit-place'
+import EditPlace from './edit-place';
 
-export default EditPlace
+export default EditPlace;
