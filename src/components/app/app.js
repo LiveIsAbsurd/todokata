@@ -8,25 +8,20 @@ import Footer from '../footer'
 import './app.css'
 
 class App extends React.Component {
-  maxId = 100
-
   state = {
-    ToDoData: [
-      { label: 'Анжуманя', realDate: new Date(), time: formatDistanceToNow(new Date(), { addSuffix: true }), id: '1' },
-      {
-        label: 'Пресс качат',
-        realDate: new Date(),
-        time: formatDistanceToNow(new Date(), { addSuffix: true }),
-        id: '2',
-      }, //class: "editing"
-      {
-        label: 'Create React app',
-        realDate: new Date(),
-        time: formatDistanceToNow(new Date(), { addSuffix: true }),
-        id: '3',
-      },
-    ],
+    ToDoData: [],
     filter: 'All',
+    maxId: 100,
+  }
+
+  componentDidMount() {
+    if (localStorage.getItem('ToDoData') !== null) {
+      const restoredState = JSON.parse(localStorage.getItem('ToDoData'))
+      restoredState.ToDoData.forEach((item) => {
+        item.realDate = new Date(item.realDate)
+      })
+      this.setState(restoredState)
+    }
   }
 
   toDoRender = (todolist) => {
@@ -56,7 +51,7 @@ class App extends React.Component {
         return el
       })
 
-      return (state.ToDoData = newArr)
+      return { ToDoData: newArr }
     })
   }
 
@@ -67,14 +62,19 @@ class App extends React.Component {
   }
 
   delCompleted = () => {
-    this.setState((state) => {
-      let newArr = state.ToDoData.filter((el) => {
-        if (el.class !== 'completed') {
-          return el
-        }
-      })
-      return (state.ToDoData = newArr)
-    })
+    this.setState(
+      (state) => {
+        let newArr = state.ToDoData.filter((el) => {
+          if (el.class !== 'completed') {
+            return el
+          }
+        })
+        return (state.ToDoData = newArr)
+      },
+      () => {
+        localStorage.setItem('ToDoData', JSON.stringify(this.state))
+      }
+    )
   }
 
   selectFilter = (filter) => {
@@ -82,49 +82,65 @@ class App extends React.Component {
   }
 
   addTodo = (text) => {
-    this.setState((state) => {
-      let newTodo = {
-        label: text,
-        realDate: new Date(),
-        id: String(this.maxId++),
+    let id = this.state.maxId + 1
+    this.setState(
+      (state) => {
+        let newTodo = {
+          label: text,
+          realDate: new Date(),
+          id: String(id),
+        }
+
+        newTodo['time'] = formatDistanceToNow(newTodo['realDate'], { addSuffix: true })
+
+        let newArr = [...state.ToDoData, newTodo]
+
+        return { ToDoData: newArr, maxId: id }
+      },
+      () => {
+        localStorage.setItem('ToDoData', JSON.stringify(this.state))
       }
-
-      newTodo['time'] = formatDistanceToNow(newTodo['realDate'], { addSuffix: true })
-
-      let newArr = [...state.ToDoData, newTodo]
-
-      return (state.ToDoData = newArr)
-    })
+    )
   }
 
   onDeleted = (id) => {
-    this.setState((state) => {
-      let newData = state.ToDoData.filter((el) => {
-        if (el.id !== id) {
-          return el
-        }
-      })
+    this.setState(
+      (state) => {
+        let newData = state.ToDoData.filter((el) => {
+          if (el.id !== id) {
+            return el
+          }
+        })
 
-      return (state.ToDoData = newData)
-    })
+        return (state.ToDoData = newData)
+      },
+      () => {
+        localStorage.setItem('ToDoData', JSON.stringify(this.state))
+      }
+    )
   }
 
   setComplite = (id) => {
-    this.setState((state) => {
-      let newData = [...state.ToDoData]
+    this.setState(
+      (state) => {
+        let newData = [...state.ToDoData]
 
-      const idx = newData.findIndex((el) => {
-        return el.id === id
-      })
+        const idx = newData.findIndex((el) => {
+          return el.id === id
+        })
 
-      if (!newData[idx].class) {
-        newData[idx].class = 'completed'
-      } else {
-        newData[idx].class = ''
+        if (!newData[idx].class) {
+          newData[idx].class = 'completed'
+        } else {
+          newData[idx].class = ''
+        }
+
+        return (state.ToDoData = newData)
+      },
+      () => {
+        localStorage.setItem('ToDoData', JSON.stringify(this.state))
       }
-
-      return (state.ToDoData = newData)
-    })
+    )
   }
 
   editingTask = (id) => {
@@ -141,16 +157,21 @@ class App extends React.Component {
   }
 
   editTask = (id, label) => {
-    this.setState((state) => {
-      let newData = [...state.ToDoData]
+    this.setState(
+      (state) => {
+        let newData = [...state.ToDoData]
 
-      const idx = newData.findIndex((el) => {
-        return el.id === id
-      })
-      newData[idx].class = newData[idx].preIditingState
-      newData[idx].label = label
-      return (state.ToDoData = newData)
-    })
+        const idx = newData.findIndex((el) => {
+          return el.id === id
+        })
+        newData[idx].class = newData[idx].preIditingState
+        newData[idx].label = label
+        return (state.ToDoData = newData)
+      },
+      () => {
+        localStorage.setItem('ToDoData', JSON.stringify(this.state))
+      }
+    )
   }
 
   render() {

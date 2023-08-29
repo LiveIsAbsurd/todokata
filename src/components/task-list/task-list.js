@@ -1,43 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import EditPlace from '../edit-place'
 import Task from '../task'
 import './task-list.css'
 
 class TaskList extends React.Component {
-  state = {
-    editing: '',
-  }
-
-  editLabel = (e) => {
-    this.setState({
-      editing: e.target.value,
-    })
-  }
-
-  onSubmit = (e, id) => {
-    e.preventDefault()
-    if (this.state.editing.trim() == '') {
-      return
-    }
-    this.props.editTask(id, this.state.editing)
-  }
-
   render() {
-    const { todos, setComplite, onDeleted, editingTask } = this.props
+    const { todos, setComplite, onDeleted, editingTask, editTask } = this.props
 
     const elements = todos.map((el) => {
       let editInput
       if (el.class === 'editing') {
-        editInput = (
-          <form
-            onSubmit={(e) => {
-              this.onSubmit(e, el.id)
-            }}
-          >
-            <input type="text" className="edit" defaultValue={el.label} onChange={this.editLabel}></input>
-          </form>
-        )
+        editInput = <EditPlace el={el} editTask={(id, label) => editTask(id, label)} />
       } else {
         editInput = ''
       }
