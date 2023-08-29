@@ -177,7 +177,7 @@ class App extends React.Component {
   render() {
     setInterval(() => {
       this.refreshTime()
-    }, 5000)
+    }, 1000)
 
     return (
       <section className="todoapp">
