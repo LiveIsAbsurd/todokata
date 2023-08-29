@@ -89,6 +89,7 @@ class App extends React.Component {
           label: text,
           realDate: new Date(),
           id: String(id),
+          preIditingState: '',
         };
 
         newTodo['time'] = formatDistanceToNow(newTodo['realDate'], { addSuffix: true });
@@ -150,7 +151,7 @@ class App extends React.Component {
       const idx = newData.findIndex((el) => {
         return el.id === id;
       });
-      newData[idx].preIditingState = newData[idx].class;
+      newData[idx].preIditingState = newData[idx].class == 'editing' ? '' : newData[idx].class;
       newData[idx].class = 'editing';
       return { ToDoData: newData };
     });
