@@ -112,7 +112,7 @@ class App extends React.Component {
           }
         });
 
-        return (state.ToDoData = newData);
+        return { ToDoData: newData };
       },
       () => {
         localStorage.setItem('ToDoData', JSON.stringify(this.state));
@@ -135,7 +135,7 @@ class App extends React.Component {
           newData[idx].class = '';
         }
 
-        return (state.ToDoData = newData);
+        return { ToDoData: newData };
       },
       () => {
         localStorage.setItem('ToDoData', JSON.stringify(this.state));
@@ -152,7 +152,7 @@ class App extends React.Component {
       });
       newData[idx].preIditingState = newData[idx].class;
       newData[idx].class = 'editing';
-      return (state.ToDoData = newData);
+      return { ToDoData: newData };
     });
   };
 
@@ -166,7 +166,7 @@ class App extends React.Component {
         });
         newData[idx].class = newData[idx].preIditingState;
         newData[idx].label = label;
-        return (state.ToDoData = newData);
+        return { ToDoData: newData };
       },
       () => {
         localStorage.setItem('ToDoData', JSON.stringify(this.state));
