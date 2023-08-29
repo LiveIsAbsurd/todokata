@@ -29,7 +29,7 @@ class App extends React.Component {
       if (this.state.filter === 'All') {
         return el;
       } else if (this.state.filter === 'Completed') {
-        if (el.class === 'completed') {
+        if (el.class === 'completed' || el.preIditingState === 'completed') {
           return el;
         }
       } else if (this.state.filter === 'Active') {
