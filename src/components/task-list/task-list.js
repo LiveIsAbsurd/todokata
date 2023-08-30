@@ -11,19 +11,25 @@ class TaskList extends React.Component {
 
     const elements = todos.map((el) => {
       let editInput;
-      if (el.class === 'editing') {
+      let taskClass;
+      if (el.state === 'completed') {
+        taskClass = 'completed';
+      } else if (el.state === 'active') {
+        taskClass = '';
+      }
+      if (el.edit === true) {
         editInput = <EditPlace el={el} editTask={(id, label) => editTask(id, label)} />;
       } else {
         editInput = '';
       }
       return (
-        <li key={el.id} className={el.class ? el.class : ''}>
+        <li key={el.id} className={el.edit ? 'editing' : taskClass}>
           <Task
             {...el}
             setComplite={(id) => setComplite(id)}
             onDeleted={(id) => onDeleted(id)}
             editingTask={(id) => editingTask(id)}
-            isChecked={el.class === 'completed' ? true : false}
+            isChecked={el.state === 'completed' ? true : false}
           />
           {editInput}
         </li>

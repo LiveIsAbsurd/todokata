@@ -29,11 +29,11 @@ class App extends React.Component {
       if (this.state.filter === 'All') {
         return el;
       } else if (this.state.filter === 'Completed') {
-        if (el.class === 'completed' || el.preIditingState === 'completed') {
+        if (el.state === 'completed') {
           return el;
         }
       } else if (this.state.filter === 'Active') {
-        if (el.class !== 'completed') {
+        if (el.state === 'active') {
           return el;
         }
       }
@@ -58,14 +58,14 @@ class App extends React.Component {
   nonCompletedCount = () => {
     const { ToDoData } = this.state;
 
-    return ToDoData.filter((el) => el.class !== 'completed').length;
+    return ToDoData.filter((el) => el.state !== 'completed').length;
   };
 
   delCompleted = () => {
     this.setState(
       (state) => {
         let newArr = state.ToDoData.filter((el) => {
-          if (el.class !== 'completed') {
+          if (el.state !== 'completed') {
             return el;
           }
         });
@@ -89,7 +89,8 @@ class App extends React.Component {
           label: text,
           realDate: new Date(),
           id: String(id),
-          preIditingState: '',
+          state: 'active',
+          edit: false,
         };
 
         newTodo['time'] = formatDistanceToNow(newTodo['realDate'], { addSuffix: true });
@@ -130,10 +131,10 @@ class App extends React.Component {
           return el.id === id;
         });
 
-        if (!newData[idx].class) {
-          newData[idx].class = 'completed';
+        if (newData[idx].state === 'active') {
+          newData[idx].state = 'completed';
         } else {
-          newData[idx].class = '';
+          newData[idx].state = 'active';
         }
 
         return { ToDoData: newData };
@@ -151,8 +152,7 @@ class App extends React.Component {
       const idx = newData.findIndex((el) => {
         return el.id === id;
       });
-      newData[idx].preIditingState = newData[idx].class == 'editing' ? '' : newData[idx].class;
-      newData[idx].class = 'editing';
+      newData[idx].edit = true;
       return { ToDoData: newData };
     });
   };
@@ -165,8 +165,8 @@ class App extends React.Component {
         const idx = newData.findIndex((el) => {
           return el.id === id;
         });
-        newData[idx].class = newData[idx].preIditingState;
         newData[idx].label = label;
+        newData[idx].edit = false;
         return { ToDoData: newData };
       },
       () => {
