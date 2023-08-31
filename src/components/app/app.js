@@ -19,6 +19,7 @@ class App extends React.Component {
       const restoredState = JSON.parse(localStorage.getItem('ToDoData'));
       restoredState.ToDoData.forEach((item) => {
         item.realDate = new Date(item.realDate);
+        item.time = formatDistanceToNow(item.realDate, { addSuffix: true });
       });
       this.setState(restoredState);
     }
