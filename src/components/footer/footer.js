@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import TasksFilter from '../tasks-filter';
 import './footer.css';
 
-const Footer = ({ selectFilter, delCompleted, count }) => {
+const Footer = ({ selectFilter, delCompleted, count, filter }) => {
   return (
     <footer className="footer">
       <span className="todo-count">{count} items left</span>
@@ -12,6 +12,7 @@ const Footer = ({ selectFilter, delCompleted, count }) => {
         selectFilter={(filter) => {
           selectFilter(filter);
         }}
+        filter={filter}
       />
       <button className="clear-completed" onClick={delCompleted}>
         Clear completed

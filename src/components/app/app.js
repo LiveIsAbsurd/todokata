@@ -200,6 +200,7 @@ class App extends React.Component {
             }}
             delCompleted={this.delCompleted}
             count={this.nonCompletedCount()}
+            filter={this.state.filter}
           />
         </section>
       </section>
