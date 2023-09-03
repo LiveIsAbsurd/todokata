@@ -25,10 +25,12 @@ class TasksFilter extends React.Component {
 
 TasksFilter.propTypes = {
   selectFilter: PropTypes.func,
+  filter: PropTypes.string,
 };
 
 TasksFilter.defaultProps = {
   selectFilter: () => {},
+  filter: '',
 };
 
 export default TasksFilter;
