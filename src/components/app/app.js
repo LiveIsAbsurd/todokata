@@ -20,6 +20,7 @@ class App extends React.Component {
       restoredState.ToDoData.forEach((item) => {
         item.realDate = new Date(item.realDate);
         item.time = formatDistanceToNow(item.realDate, { addSuffix: true });
+        // item.timerText = '3';
       });
       this.setState(restoredState);
     }
@@ -82,19 +83,21 @@ class App extends React.Component {
     this.setState({ filter });
   };
 
-  addTodo = (text) => {
+  addTodo = (todo) => {
     let id = this.state.maxId + 1;
     this.setState(
       (state) => {
         let newTodo = {
-          label: text,
+          label: todo.label,
           realDate: new Date(),
           id: String(id),
           state: 'active',
           edit: false,
+          timer: new Date(0, 0, 0, 0, todo.minute, todo.second),
         };
 
         newTodo['time'] = formatDistanceToNow(newTodo['realDate'], { addSuffix: true });
+        newTodo['timerText'] = `${newTodo.timer.getMinutes()}:${newTodo.timer.getSeconds()}`;
 
         let newArr = [...state.ToDoData, newTodo];
 
@@ -104,6 +107,27 @@ class App extends React.Component {
         localStorage.setItem('ToDoData', JSON.stringify(this.state));
       }
     );
+  };
+
+  renderTimer = (timer) => {
+    const seconds = timer.getSeconds();
+
+    return `${seconds}`;
+  };
+
+  test = (id) => {
+    console.log('test');
+    this.setState((state) => {
+      let newData = [...state.ToDoData];
+
+      const idx = newData.findIndex((el) => {
+        return el.id === id;
+      });
+      let currentTime = newData[idx].timer.getTime();
+      let time = currentTime - 1000;
+      newData[idx].timer = new Date(time);
+      return { ToDoData: newData };
+    });
   };
 
   onDeleted = (id) => {
@@ -193,6 +217,7 @@ class App extends React.Component {
             filter={this.state.filter}
             editingTask={(id) => this.editingTask(id)}
             editTask={(id, label) => this.editTask(id, label)}
+            test={(id) => this.test(id)}
           />
           <Footer
             selectFilter={(filter) => {

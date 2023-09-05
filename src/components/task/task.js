@@ -4,14 +4,19 @@ import './task.css';
 
 class Task extends React.Component {
   render() {
-    const { label, time, setComplite, onDeleted, editingTask, id, isChecked } = this.props;
+    const { label, time, timer, setComplite, onDeleted, editingTask, id, isChecked, test } = this.props;
 
     return (
       <div className="view">
         <input className="toggle" type="checkbox" onClick={() => setComplite(id)} checked={isChecked} readOnly />
         <label>
-          <span className={'description'}>{label}</span>
-          <span className="created">{time}</span>
+          <span className="title">{label}</span>
+          <span className="description">
+            <button className="icon icon-play" onClick={() => test(id)}></button>
+            <button className="icon icon-pause"></button>
+            {`${timer.getMinutes()}:${timer.getSeconds()}`}
+          </span>
+          <span className="description">{time}</span>
         </label>
         <button className="icon icon-edit" onClick={() => editingTask(id)}></button>
         <button className="icon icon-destroy" onClick={() => onDeleted(id)}></button>
