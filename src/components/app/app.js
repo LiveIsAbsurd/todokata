@@ -14,13 +14,17 @@ class App extends React.Component {
     maxId: 100,
   };
 
+  timerState = {};
+
   componentDidMount() {
     if (localStorage.getItem('ToDoData') !== null) {
       const restoredState = JSON.parse(localStorage.getItem('ToDoData'));
-      restoredState.ToDoData.forEach((item) => {
+      restoredState.ToDoData.forEach((item, i) => {
         item.realDate = new Date(item.realDate);
+        item.timer = new Date(item.timer);
         item.time = formatDistanceToNow(item.realDate, { addSuffix: true });
         // item.timerText = '3';
+        this.timerState[i] = item.timer;
       });
       this.setState(restoredState);
     }
@@ -98,6 +102,7 @@ class App extends React.Component {
 
         newTodo['time'] = formatDistanceToNow(newTodo['realDate'], { addSuffix: true });
         newTodo['timerText'] = `${newTodo.timer.getMinutes()}:${newTodo.timer.getSeconds()}`;
+        this.timerState[String(id)] = newTodo.timer;
 
         let newArr = [...state.ToDoData, newTodo];
 
@@ -115,19 +120,19 @@ class App extends React.Component {
     return `${seconds}`;
   };
 
-  test = (id) => {
-    console.log('test');
-    this.setState((state) => {
-      let newData = [...state.ToDoData];
+  timerTick = (id) => {
+    if (this.timerState[id].getMinutes() === 0 && this.timerState[id].getSeconds() === 0) {
+      console.log('stop');
+      return;
+    }
+    let currentTime = this.timerState[id].getTime();
+    let time = new Date(currentTime - 1000);
+    this.timerState[id] = time;
+    setTimeout(this.timerTick.bind(this), 1000, id);
+  };
 
-      const idx = newData.findIndex((el) => {
-        return el.id === id;
-      });
-      let currentTime = newData[idx].timer.getTime();
-      let time = currentTime - 1000;
-      newData[idx].timer = new Date(time);
-      return { ToDoData: newData };
-    });
+  timerStart = (id) => {
+    setTimeout(this.timerTick.bind(this), 1000, id);
   };
 
   onDeleted = (id) => {
@@ -217,7 +222,8 @@ class App extends React.Component {
             filter={this.state.filter}
             editingTask={(id) => this.editingTask(id)}
             editTask={(id, label) => this.editTask(id, label)}
-            test={(id) => this.test(id)}
+            timerStart={(id) => this.timerStart(id)}
+            timerState={this.timerState}
           />
           <Footer
             selectFilter={(filter) => {

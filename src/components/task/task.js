@@ -4,7 +4,7 @@ import './task.css';
 
 class Task extends React.Component {
   render() {
-    const { label, time, timer, setComplite, onDeleted, editingTask, id, isChecked, test } = this.props;
+    const { label, time, setComplite, onDeleted, editingTask, id, isChecked, timerStart, timerState } = this.props;
 
     return (
       <div className="view">
@@ -12,9 +12,9 @@ class Task extends React.Component {
         <label>
           <span className="title">{label}</span>
           <span className="description">
-            <button className="icon icon-play" onClick={() => test(id)}></button>
+            <button className="icon icon-play" onClick={() => timerStart(id)}></button>
             <button className="icon icon-pause"></button>
-            {`${timer.getMinutes()}:${timer.getSeconds()}`}
+            {`${timerState[id].getMinutes()}:${timerState[id].getSeconds()}`}
           </span>
           <span className="description">{time}</span>
         </label>
