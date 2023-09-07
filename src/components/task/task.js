@@ -4,8 +4,6 @@ import './task.css';
 
 import TodoTimer from '../todo-timer';
 
-localStorage.clear();
-
 class Task extends React.Component {
   render() {
     const { label, time, setComplite, onDeleted, editingTask, id, isChecked, timer } = this.props;
@@ -15,7 +13,7 @@ class Task extends React.Component {
         <input className="toggle" type="checkbox" onClick={() => setComplite(id)} checked={isChecked} readOnly />
         <label>
           <span className="title">{label}</span>
-          <TodoTimer timerState={timer} id={id} />
+          <TodoTimer timerState={timer} id={id} isChecked={isChecked} />
           <span className="description">{time}</span>
         </label>
         <button className="icon icon-edit" onClick={() => editingTask(id)}></button>

@@ -1,7 +1,12 @@
 import React from 'react';
+import './todo-timer.css';
 
 export default class TodoTimer extends React.Component {
   state = {};
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
 
   timerTick = () => {
     this.setState((state) => {
@@ -37,10 +42,14 @@ export default class TodoTimer extends React.Component {
   };
 
   render() {
+    const { isChecked } = this.props;
+    if (isChecked) {
+      this.timerPause();
+    }
     return (
       <div className="description">
-        <button className="icon icon-play" onClick={this.timerStart}></button>
-        <button className="icon icon-pause" onClick={this.timerPause}></button>
+        <button onClick={this.timerStart} className="icon icon-play"></button>
+        <button onClick={this.timerPause} className="icon icon-pause"></button>
         {this.state[this.props.id]
           ? `${this.state[this.props.id].getMinutes()}:${this.state[this.props.id].getSeconds()}`
           : `${this.props.timerState.getMinutes()}:${this.props.timerState.getSeconds()}`}
