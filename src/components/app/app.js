@@ -21,7 +21,6 @@ class App extends React.Component {
         item.realDate = new Date(item.realDate);
         item.timer = new Date(item.timer);
         item.time = formatDistanceToNow(item.realDate, { addSuffix: true });
-        // item.timerText = '3';
       });
       this.setState(restoredState);
     }
@@ -108,27 +107,6 @@ class App extends React.Component {
         localStorage.setItem('ToDoData', JSON.stringify(this.state));
       }
     );
-  };
-
-  renderTimer = (timer) => {
-    const seconds = timer.getSeconds();
-
-    return `${seconds}`;
-  };
-
-  timerTick = (id) => {
-    if (this.timerState[id].getMinutes() === 0 && this.timerState[id].getSeconds() === 0) {
-      console.log('stop');
-      return;
-    }
-    let currentTime = this.timerState[id].getTime();
-    let time = new Date(currentTime - 1000);
-    this.timerState[id] = time;
-    setTimeout(this.timerTick.bind(this), 1000, id);
-  };
-
-  timerStart = (id) => {
-    setTimeout(this.timerTick.bind(this), 1000, id);
   };
 
   onDeleted = (id) => {
@@ -218,7 +196,6 @@ class App extends React.Component {
             filter={this.state.filter}
             editingTask={(id) => this.editingTask(id)}
             editTask={(id, label) => this.editTask(id, label)}
-            timerStart={(id) => this.timerStart(id)}
           />
           <Footer
             selectFilter={(filter) => {

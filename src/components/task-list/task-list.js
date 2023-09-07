@@ -7,7 +7,7 @@ import './task-list.css';
 
 class TaskList extends React.Component {
   render() {
-    const { todos, setComplite, onDeleted, editingTask, editTask, timerStart } = this.props;
+    const { todos, setComplite, onDeleted, editingTask, editTask } = this.props;
 
     const elements = todos.map((el) => {
       let editInput;
@@ -30,7 +30,6 @@ class TaskList extends React.Component {
             onDeleted={(id) => onDeleted(id)}
             editingTask={(id) => editingTask(id)}
             isChecked={el.state === 'completed' ? true : false}
-            timerStart={(id) => timerStart(id)}
           />
           {editInput}
         </li>

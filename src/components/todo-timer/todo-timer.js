@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './todo-timer.css';
 
 export default class TodoTimer extends React.Component {
@@ -57,3 +58,15 @@ export default class TodoTimer extends React.Component {
     );
   }
 }
+
+TodoTimer.propTypes = {
+  id: PropTypes.string,
+  isChecked: PropTypes.bool,
+  timerState: PropTypes.object,
+};
+
+TodoTimer.defaultProps = {
+  id: '',
+  isChecked: false,
+  timerState: new Date(0),
+};
