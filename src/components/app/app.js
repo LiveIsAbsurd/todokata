@@ -14,17 +14,14 @@ class App extends React.Component {
     maxId: 100,
   };
 
-  timerState = {};
-
   componentDidMount() {
     if (localStorage.getItem('ToDoData') !== null) {
       const restoredState = JSON.parse(localStorage.getItem('ToDoData'));
-      restoredState.ToDoData.forEach((item, i) => {
+      restoredState.ToDoData.forEach((item) => {
         item.realDate = new Date(item.realDate);
         item.timer = new Date(item.timer);
         item.time = formatDistanceToNow(item.realDate, { addSuffix: true });
         // item.timerText = '3';
-        this.timerState[i] = item.timer;
       });
       this.setState(restoredState);
     }
@@ -102,7 +99,6 @@ class App extends React.Component {
 
         newTodo['time'] = formatDistanceToNow(newTodo['realDate'], { addSuffix: true });
         newTodo['timerText'] = `${newTodo.timer.getMinutes()}:${newTodo.timer.getSeconds()}`;
-        this.timerState[String(id)] = newTodo.timer;
 
         let newArr = [...state.ToDoData, newTodo];
 
@@ -208,7 +204,7 @@ class App extends React.Component {
   render() {
     setInterval(() => {
       this.refreshTime();
-    }, 1000);
+    }, 60000);
 
     return (
       <section className="todoapp">
@@ -223,7 +219,6 @@ class App extends React.Component {
             editingTask={(id) => this.editingTask(id)}
             editTask={(id, label) => this.editTask(id, label)}
             timerStart={(id) => this.timerStart(id)}
-            timerState={this.timerState}
           />
           <Footer
             selectFilter={(filter) => {
