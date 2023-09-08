@@ -29,12 +29,20 @@ class NewTaskForm extends React.Component {
   };
 
   changeMinute = (e) => {
+    if (isNaN(Number(e.target.value))) {
+      e.target.value = '';
+      return;
+    }
     this.setState({
       minute: e.target.value,
     });
   };
 
   changeSecond = (e) => {
+    if (isNaN(Number(e.target.value))) {
+      e.target.value = '';
+      return;
+    }
     this.setState({
       second: e.target.value,
     });

@@ -24,6 +24,9 @@ export default class TodoTimer extends React.Component {
   };
 
   timerStart = () => {
+    if (this.props.isChecked) {
+      return;
+    }
     if (!this.state[this.props.id] || this.state[this.props.id].getTime() == new Date(0).getTime()) {
       this.setState(
         (state) => {
