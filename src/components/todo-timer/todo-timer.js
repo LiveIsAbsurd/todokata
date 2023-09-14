@@ -3,60 +3,70 @@ import PropTypes from 'prop-types';
 import './todo-timer.css';
 
 export default class TodoTimer extends React.Component {
-  state = {};
+  // componentDidUpdate() {
+  //   const { isChecked } = this.props;
+  //   if (isChecked) {
+  //     this.timerPause();
+  //   }
+  // }
 
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
+  // timerTick = () => {
+  //   this.setState((state) => {
+  //     if (state.timer[this.props.id].getMinutes() === 0 && state.timer[this.props.id].getSeconds() === 0) {
+  //       clearInterval(state.interval[this.props.id]);
+  //       let newState = { ...state };
+  //       newState.timer[this.props.id] = new Date(0);
+  //       return (state = newState);
+  //     } else {
+  //       let newTime = new Date(state.timer[this.props.id].getTime() - 1000);
+  //       return (state.timer[this.props.id] = newTime);
+  //     }
+  //   });
+  // };
 
-  timerTick = () => {
-    this.setState((state) => {
-      if (state[this.props.id].getMinutes() === 0 && state[this.props.id].getSeconds() === 0) {
-        clearInterval(this.interval);
-        let newState = { ...state };
-        newState[this.props.id] = new Date(0);
-        return (state = newState);
-      } else {
-        let newTime = new Date(state[this.props.id].getTime() - 1000);
-        return { [this.props.id]: newTime };
-      }
-    });
-  };
+  // timerStart = () => {
+  //   if (this.props.isChecked) {
+  //     return;
+  //   }
+  //   if (this.state.timer[this.props.id] && this.state.interval[this.props.id] !== 'pause') {
+  //     return;
+  //   }
+  //   if (!this.state.timer[this.props.id] || this.state.timer[this.props.id].getTime() == new Date(0).getTime()) {
+  //     this.setState((state) => {
+  //       let newState = { ...state };
+  //       newState.timer[this.props.id] = this.props.timerState;
+  //       let interval = setInterval(this.timerTick, 1000);
+  //       newState.interval[this.props.id] = interval;
+  //       return (state = newState);
+  //     });
+  //   } else {
+  //     let interval = setInterval(this.timerTick, 1000);
+  //     this.setState({ interval: { [this.props.id]: interval } });
+  //   }
+  // };
 
-  timerStart = () => {
-    if (this.props.isChecked) {
-      return;
-    }
-    if (!this.state[this.props.id] || this.state[this.props.id].getTime() == new Date(0).getTime()) {
-      this.setState(
-        (state) => {
-          let newState = { ...state };
-          newState[this.props.id] = this.props.timerState;
-          return (state = newState);
-        },
-        () => (this.interval = setInterval(this.timerTick, 1000))
-      );
-    } else {
-      this.interval = setInterval(this.timerTick, 1000);
-    }
-  };
-
-  timerPause = () => {
-    clearInterval(this.interval);
-  };
+  // timerPause = () => {
+  //   clearInterval(this.state.interval[this.props.id]);
+  //   this.setState({ interval: { [this.props.id]: 'pause' } });
+  // };
 
   render() {
-    const { isChecked } = this.props;
-    if (isChecked) {
-      this.timerPause();
-    }
+    let { timerShow: timer } = this.props;
     return (
       <div className="description">
-        <button onClick={this.timerStart} className="icon icon-play"></button>
-        <button onClick={this.timerPause} className="icon icon-pause"></button>
-        {this.state[this.props.id]
-          ? `${this.state[this.props.id].getMinutes()}:${this.state[this.props.id].getSeconds()}`
-          : `${this.props.timerState.getMinutes()}:${this.props.timerState.getSeconds()}`}
+        <button
+          onClick={() => {
+            this.props.timerStart(this.props.id);
+          }}
+          className="icon icon-play"
+        ></button>
+        <button
+          onClick={() => {
+            this.props.timerPause(this.props.id);
+          }}
+          className="icon icon-pause"
+        ></button>
+        {`${timer.getMinutes()}:${timer.getSeconds()}`}
       </div>
     );
   }
