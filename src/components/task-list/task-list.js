@@ -5,40 +5,36 @@ import EditPlace from '../edit-place';
 import Task from '../task';
 import './task-list.css';
 
-class TaskList extends React.Component {
-  render() {
-    const { todos, setComplite, onDeleted, editingTask, editTask, timerStart, timerPause } = this.props;
-
-    const elements = todos.map((el) => {
-      let editInput;
-      let taskClass;
-      if (el.state === 'completed') {
-        taskClass = 'completed';
-      } else if (el.state === 'active') {
-        taskClass = '';
-      }
-      if (el.edit === true) {
-        editInput = <EditPlace el={el} editTask={(id, label) => editTask(id, label)} />;
-      } else {
-        editInput = '';
-      }
-      return (
-        <li key={el.id} className={el.edit ? 'editing' : taskClass}>
-          <Task
-            {...el}
-            setComplite={(id) => setComplite(id)}
-            onDeleted={(id) => onDeleted(id)}
-            editingTask={(id) => editingTask(id)}
-            isChecked={el.state === 'completed' ? true : false}
-            timerStart={(id) => timerStart(id)}
-            timerPause={(id) => timerPause(id)}
-          />
-          {editInput}
-        </li>
-      );
-    });
-    return <ul className="todo-list">{elements}</ul>;
-  }
+function TaskList({ todos, setComplite, onDeleted, editingTask, editTask, timerStart, timerPause }) {
+  const elements = todos.map((el) => {
+    let editInput;
+    let taskClass;
+    if (el.state === 'completed') {
+      taskClass = 'completed';
+    } else if (el.state === 'active') {
+      taskClass = '';
+    }
+    if (el.edit === true) {
+      editInput = <EditPlace el={el} editTask={(id, label) => editTask(id, label)} />;
+    } else {
+      editInput = '';
+    }
+    return (
+      <li key={el.id} className={el.edit ? 'editing' : taskClass}>
+        <Task
+          {...el}
+          setComplite={(id) => setComplite(id)}
+          onDeleted={(id) => onDeleted(id)}
+          editingTask={(id) => editingTask(id)}
+          isChecked={el.state === 'completed' ? true : false}
+          timerStart={(id) => timerStart(id)}
+          timerPause={(id) => timerPause(id)}
+        />
+        {editInput}
+      </li>
+    );
+  });
+  return <ul className="todo-list">{elements}</ul>;
 }
 
 TaskList.propTypes = {

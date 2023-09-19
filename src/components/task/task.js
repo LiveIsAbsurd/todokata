@@ -4,30 +4,25 @@ import './task.css';
 
 import TodoTimer from '../todo-timer';
 
-class Task extends React.Component {
-  render() {
-    const { label, time, setComplite, onDeleted, editingTask, id, isChecked, timerShow, timerStart, timerPause } =
-      this.props;
-
-    return (
-      <div className="view">
-        <input className="toggle" type="checkbox" onClick={() => setComplite(id)} checked={isChecked} readOnly />
-        <label>
-          <span className="title">{label}</span>
-          <TodoTimer
-            timerShow={timerShow}
-            id={id}
-            isChecked={isChecked}
-            timerStart={(id) => timerStart(id)}
-            timerPause={(id) => timerPause(id)}
-          />
-          <span className="description">{time}</span>
-        </label>
-        <button className="icon icon-edit" onClick={() => editingTask(id)}></button>
-        <button className="icon icon-destroy" onClick={() => onDeleted(id)}></button>
-      </div>
-    );
-  }
+function Task({ label, time, setComplite, onDeleted, editingTask, id, isChecked, timerShow, timerStart, timerPause }) {
+  return (
+    <div className="view">
+      <input className="toggle" type="checkbox" onClick={() => setComplite(id)} checked={isChecked} readOnly />
+      <label>
+        <span className="title">{label}</span>
+        <TodoTimer
+          timerShow={timerShow}
+          id={id}
+          isChecked={isChecked}
+          timerStart={(id) => timerStart(id)}
+          timerPause={(id) => timerPause(id)}
+        />
+        <span className="description">{time}</span>
+      </label>
+      <button className="icon icon-edit" onClick={() => editingTask(id)}></button>
+      <button className="icon icon-destroy" onClick={() => onDeleted(id)}></button>
+    </div>
+  );
 }
 
 Task.propTypes = {
